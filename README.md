@@ -3,7 +3,7 @@ Repository for the project "Feasibility Study to Search for Higgs Decays to Gluo
 
 The input data for running the codes are:
 1. h5 file containing jet-level and track/calorimeter-level information of the Higgs jet candidates, used for training and testing the network
-2. h5 files containing event-level of the $VH\rightarrow gg$ candidates and track/calorimeter-level information of the corresponding Higgs jet candidate, used for significance analysis.
+2. h5 files containing event-level information of the $VH\rightarrow gg$ candidates and track/calorimeter-level information of the corresponding Higgs jet candidate, used for significance analysis.
 
 ## Processing the Graphs
 Both track/calorimeter-level information of the Higgs jet candidates need to be processed into graphs before training and significance analysis. This is performed by uncommenting all commented lines in the `process.py` and `process_final.py` and run them by typing
@@ -90,6 +90,76 @@ according to which model we want to put together in the plots. For example, the 
 
 ```
 python GNN_plots.py
+```
+
+in the terminal.
+
+## Significance Analysis
+To perform significance analysis, we do the following procedures:
+1. Produce GNN discriminant for each Higgs jet candidate using the optimised and mass-decorrelated `ParticleNet`.
+2. Perform BDT training using the event-level information of the $VH\rightarrow gg$ candidates to obtain the BDT score distribution.
+3. Apply cut on the events using the GNN discriminant and other event-level information.
+4. Compute the binned significance analysis using the BDT score distribution of the surviving events.
+
+### Producing GNN discriminant
+To produce GNN discriminant using a certain model, simply initialise the model in `GNN_final.py` the same way as in the model testing, and put the model name in the following lines
+
+```
+#Evaluate the chosen model on evaluation (significance analysis) dataset
+for filename in os.listdir("hfivesdir/0L/"):
+    if filename not in os.listdir("resultdir/0L/"):
+        print(filename)
+        data = dataset(direname = '0L', filename = filename)
+        eval_final(model_M020, data, '0L', filename)
+for filename in os.listdir("hfivesdir/1L/"):
+    if filename not in os.listdir("resultdir/1L/"):
+        print(filename)
+        data = dataset(direname = '1L', filename = filename)
+        eval_final(model_M020, data, '1L', filename)
+for filename in os.listdir("hfivesdir/2L/"):
+    if filename not in os.listdir("resultdir/2L/"):
+        print(filename)
+        data = dataset(direname = '2L', filename = filename)
+        eval_final(model_M020, data, '2L', filename)
+```
+
+followed by running the script by typing
+
+```
+GNN_final.py
+```
+
+in the terminal.
+
+### Remaining Steps
+
+The remaining steps are taken care in the `BDT.py` file. To train the BDT, initialise the BDT parameters and uncomment the last three lines in the following snapshot
+
+```
+#-------------------------Main Training------------------------------#
+#Initialising the parameters for training BDT
+params_1 = {'loss':'exponential', 'learning_rate':0.1, 
+            'n_estimators':600, 'max_depth':8, 'verbose':10,
+            'subsample':0.25}
+
+##Uncomment these lines to train model A and model B for all channels with params_1
+#train_bdt(0, params_1, 1)
+#train_bdt(1, params_1, 1)
+#train_bdt(2, params_1, 1)
+```
+
+while changing the params name according to the desired name. If we already have the trained BDT, we can proceed to the last two steps by keeping those three lines commented and instead modify the following line
+
+```
+#-------------------------Main Evaluation----------------------------#
+#Examples for evaluating the BDT on 0-lepton channel with model using params_1
+y, scores, weight, dvalue = test_bdt(0, 1)
+```
+
+depending on which BDT model we want to use and which lepton-channel we want to evaluate on. If we want to do more than one evaluation, we can also simply copy the lines and modify the BDT model and lepton-channel. Finally, both the BDT training and significance analysis are performed by typing
+
+```
+python BDT.py
 ```
 
 in the terminal.
