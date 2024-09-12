@@ -11,7 +11,7 @@ from tqdm import tqdm
 from process import weights
 from module import ParticleNet, ParticleNetMini
 from neural import NeuralNetGraph, NeuralNetGraphDiscorr
-from scoring import aucval, accept, reject, signif
+from scoring import aucval, accept, reject
 from scoring import accept_epoch, reject_epoch
 from evaluation import model_eval, eval_final
 from process_final import dataset
