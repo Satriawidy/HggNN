@@ -10,7 +10,7 @@ from tqdm import tqdm
 from process import weights, train_dataset
 from module import ParticleNet, ParticleNetMini
 from neural import NeuralNetGraph, NeuralNetGraphDiscorr
-from scoring import aucval, accept, reject, signif
+from scoring import aucval, accept, reject
 from scoring import accept_epoch, reject_epoch
 from skorch.callbacks import EpochScoring, EarlyStopping, Checkpoint
 from sklearn.pipeline import Pipeline
