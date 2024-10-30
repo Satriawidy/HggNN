@@ -25,7 +25,7 @@ conda activate hggnn
 After activating the environment, we can move on to installing the dependencies. This can be done either using pip or conda. To install using pip, run the following line on the terminal
 
 ```
-python -m pip install -r pip requirements.txt
+python -m pip install -r pip_requirements.txt
 ```
 To install using conda, use the following line
 
