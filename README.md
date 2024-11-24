@@ -6,7 +6,7 @@ The input data for running the codes are:
 2. h5 files containing event-level information of the $VH\rightarrow gg$ candidates and track/calorimeter-level information of the corresponding Higgs jet candidate, used for significance analysis.
 
 ## Set Up
-The code was tested on python 3.10.12. There are two .txt files containing the required dependencies to run the code. It is advised to setup virtual environment for installing dependencies and running the code, although the original project did not do such things. Here we present the step to set up virtual environment and install dependencies in linux. This could also be done in other operating system, although the method might slightly differs.
+The code was tested on python 3.10.12. The requirements.txt file contains the required dependencies to run the code. It is advised to setup virtual environment for installing dependencies and running the code, although the original project did not do such things. Here we present the step to set up virtual environment and install dependencies in linux. This could also be done in other operating system, although the method might slightly differs.
 
 ### Setting Up Virtual Environment
 Setting up virtual environment can be done using conda(here, we use 'hggnn' as the environment name), by running the following line on the terminal
@@ -25,19 +25,19 @@ conda activate hggnn
 After activating the environment, we can move on to installing the dependencies. This can be done either using pip or conda. To install using pip, run the following line on the terminal
 
 ```
-python -m pip install -r pip_requirements.txt
+python -m pip install -r requirements.txt
 ```
 To install using conda, use the following line
 
 ```
-conda install --yes --file conda_requirements.txt
+conda install --yes --file requirements.txt
 ```
 
 ### Another Option
 Another option is to install the dependencies while creating the environment in conda
 
 ```
-conda create --name hggnn --file conda_requirements.txt
+conda create --name hggnn --file requirements.txt
 ```
 
 ## Processing the Graphs
